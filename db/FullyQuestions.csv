@@ -1,0 +1,21 @@
+question,question_type,choice_1,choice_2,choice_3,choice_4,correct_answer
+CSUF is __th in the nation for the number of bachelor's degrees awarded to minority students.,Quad,4,6,9,1,4
+"In 1957, Cal State Fullerton became the __th state college in California to be authorized by the Legislature as a degree-granting institution",Quad,12,7,4,9,12
+Who was the founding president of CSUF?,Quad, Dr. William B. Langsforf,Dr. Oppenheimer,Dr.Phil,Dr. Wyzowski, Dr. William B. Langsforf
+Is the the Mihaylo College of Business and Economics the largest accredited business school in the state?,Boolean,"TRUE, FALSE",FALSE,,,TRUE
+How many Degree programs does CSUF offer?,Quad,"107, 98, 79,101",98,79,101,107
+Is Kevin Costner an alumni of CSUF?,Boolean,"TRUE, FALSE",FALSE,,,TRUE
+Is Gwen Stefani an alumni of CSUF?,Boolean,"TRUE, FALSE",FALSE,,,TRUE
+Is John Carmack an alumni of CSUF?,Boolean,"TRUE, FALSE",FALSE,,,FALSE
+Is Robert DeNiro an alumni of CSUF?,Boolean,"TRUE, FALSE",FALSE,,,FALSE
+What NCAA Division is the CSUF Baseball team in?,Quad,Division I,Division II,Division III,Division IV,Division I
+How many units are recommended to take each semester?,Quad,6,9,12,15,12
+"When was California State University, Fullerton founded?",Quad,1947,1957,1967,1977,1957
+"Which system is California State University, Fullerton a part of?",Quad,University of California,California State University,California Community Colleges,Private University System, California State University
+ Which of the following programs is CSUF particularly known for?,Quad,Medicine,Law,Business and Economics,Marine Biology,Business and Economics
+What is the nickname of the sports teams at CSUF?,Quad,Eagles,Titans,Lions,Bears,Titans
+How many colleges does CSUF comprise?,Quad,6,8,10,12,8
+What is the name of the business school at CSUF?,Quad,Smith School of Business,"Mihaylo College of Business and Economics, Marshall School of Business, Haas School of Business",Marshall School of Business,Haas School of Business, Mihaylo College of Business and Economics
+CSUF is known for having a significant impact on which of the following?,Quad,International Relations,Environmental Conservation,Economic Development,Space Exploration,Economic Development
+Which of the following is a feature of CSUF campus life?,Quad,A large underground library,A performing arts center,A ski resort,A beach volleyball court,A performing arts center
+CSUF serves a diverse student body and is recognized for its contributions to:,Quad,Sports only,Public service and research activities,Nightlife and entertainment,Culinary arts,"Public service and research activities"
