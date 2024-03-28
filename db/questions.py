@@ -7,19 +7,29 @@ dbuser = 'admin'
 dbpassword = 'FullyAsks01'
 dbhost = 'fullyasksdb.ctwoq4ouq4kl.us-east-1.rds.amazonaws.com'
 dbdatabase = ''
+database_name = 'questions'
+
 
 def create_questions_df():
+    """This function will read the .csv with the questions data and create a pandas dataframe and return the dataframe"""
     with open('db/FullyQuestions.csv', 'r') as FQ:
         questions = pd.read_csv(FQ,index_col=False, delimiter=',')
         return questions
     
-def drop_database(cursor):
-    cursor.execute('DROP DATABASE IF EXISTS questions;')
-    print('Database dropped')
+def drop_database(connection, cursor):
+    """This function will drop the database if it exists"""
+    if connection.is_connected():
+        cursor.execute('DROP DATABASE IF EXISTS questions;')
+        print('Database dropped')
 
-def create_database():
+        cursor.close()
+    else:
+        print('Connection to MySQL database failed')
+
+
+def create_connection():
+    """This function will create a connection to the MYSQL AWS database and return the connection object"""
     try:
-
         connection = mysql.connect(
             user = dbuser,
             password = dbpassword,
@@ -28,7 +38,26 @@ def create_database():
         )
         if connection.is_connected():
             print("Connected to MySQL database")
+        return connection
+    except Error as e:
+        print("Error while connecting to MySQL", e)
         
+    return False
+
+
+def create_questions_table(connection):
+    """This function will create the questions table in the the database and insert the collected data from csv into the database
+       Schema:
+       question_id INT PRIMARY KEY AUTO_INCREMENT, 
+       question VARCHAR(255), 
+       question_type VARCHAR(255), 
+       choice_1 VARCHAR(255), 
+       choice_2 VARCHAR(255), 
+       choice_3 VARCHAR(255), 
+       choice_4 VARCHAR(255), 
+       correct_answer VARCHAR(255)
+       """
+    if connection.is_connected():
         print('Creating questions dataframe')
         questions_df = create_questions_df()
 
@@ -46,11 +75,6 @@ def create_database():
 
         record = cursor.fetchone()
         print('You are connected to database:', record)
-
-
-
-
-        
 
         print('droping table if exists')
         cursor.execute('DROP TABLE IF EXISTS questions;')
@@ -76,26 +100,14 @@ def create_database():
         print('Closing cursor')
         cursor.close()
 
-
-    except Error as e:
-        print("Error while connecting to MySQL", e)
-    finally:
-        if connection.is_connected():
-            print('Closing connection')
-            connection.close()
+        print('Closing connection')
+        connection.close()
+    else:
+        print('Connection to MySQL database failed')
     
-def select_all_questions():
-    try:
-        connection = mysql.connect(
-            user = dbuser,
-            password = dbpassword,
-            host= dbhost,
-            database = dbdatabase
-        )
-
-        if connection.is_connected():
-            print("Connected to MySQL database")
-        
+def select_all_questions(connection):
+    """This function will select all the records from the questions table and print it out to the console"""
+    if connection.is_connected():
         cursor = connection.cursor(buffered=True)
 
         print('selecting database')
@@ -110,19 +122,122 @@ def select_all_questions():
 
         for record in records:
             print(record)
-        
-    except Error as e:
-        print("Error while connecting to MySQL", e)
-    finally:
-        if connection.is_connected():
-            print('Closing connection')
-            connection.close()
-    
 
+        cursor.close()
+    else:
+        print('Connection to MySQL database failed')
+
+def create_users_table(connection):
+    """This function will create the users table in the database
+       Schema:
+       user_id INT PRIMARY KEY AUTO_INCREMENT,
+       username VARCHAR(255),
+       year INT)
+       """
+    if connection.is_connected():
+
+        cursor = connection.cursor()
+
+        create_users_table = """
+        CREATE TABLE IF NOT EXISTS users (
+            user_id INT PRIMARY KEY AUTO_INCREMENT,
+            username VARCHAR(255),
+            year INT
+        );"""
+
+        cursor.execute(f"USE {database_name};")
+
+        cursor.execute(create_users_table)
+        print('Users table created')
+        cursor.close()
+
+        connection.commit()
+
+    else:
+        print('Connection to MySQL database failed')
+
+def create_gamerecord_table(connection):
+    """This function will create a game record table
+       schema:
+            game_id INT PRIMARY KEY AUTO_INCREMENT,
+            user_id INT,
+            score INT,
+            FOREIGN KEY (user_id) REFERENCES users(user_id)
+       """
+    if connection.is_connected():
+
+        game_record_query = """
+        CREATE TABLE IF NOT EXISTS game_record (
+            game_id INT PRIMARY KEY AUTO_INCREMENT,
+            user_id INT,
+            score FLOAT,
+            FOREIGN KEY (user_id) REFERENCES users(user_id)
+        );"""
+
+        cursor = connection.cursor()
+
+        cursor.execute(f"USE {database_name};")
+
+        cursor.execute(game_record_query)
+
+        print('Game record table created')
+
+        cursor.close()
+
+        connection.commit()
+    
+    else:
+
+        print('Connection to MySQL database failed')
+
+
+def check_table_exists(connection, table_name):
+    # Create a cursor object to execute SQL queries
+    if connection.is_connected():
+        cursor = connection.cursor()
+
+        cursor.execute(f"USE {database_name};")
+
+        # Define the SQL query to check if the table exists
+        check_table_query = """
+        SELECT EXISTS (
+            SELECT 1 
+            FROM information_schema.tables 
+            WHERE table_schema = %s 
+            AND table_name = %s
+        ) AS table_exists;
+        """
+
+        # Execute the SQL query with the database name and table name as parameters
+        cursor.execute(check_table_query, (database_name, table_name))
+
+        # Fetch the result of the query
+        table_exists = cursor.fetchone()[0]
+
+        # Print the result
+        if table_exists:
+            print("Table exists.")
+        else:
+            print("Table does not exist.")
+
+        # Close the cursor and database connection
+        cursor.close()
+    else:
+        print('Connection to MySQL database failed')
+
+    
+def close_connection(connection):
+    """This function will close the connection to the MYSQL AWS database"""
+    if connection.is_connected():
+        connection.close()
+        print('Connection closed')
+    else:
+        print('Connection to MySQL database failed')
 
 if __name__ == '__main__':
-    select_all_questions()        
-
+    connection = create_connection()
+    check_table_exists(connection, 'game_record')
+    close_connection(connection)
 
 
 # import mysql.connector as msql 
