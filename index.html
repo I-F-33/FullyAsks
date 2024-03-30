@@ -16,25 +16,22 @@
         </div>
 
         <div id="question-screen" class="hidden">
+            <div id="progress">Question X of Y</div>
+            <div id="score">Score: 0</div>
             <div id="question">Question will go here</div>
-            <div id="answer-buttons" class="btn-grid">
-                <!-- Answer buttons will be generated here -->
-            </div>
+            <div id="answer-buttons" class="btn-grid"></div>
             <button id="next-btn" class="hidden">Next Question</button>
         </div>
 
         <div id="summary-screen" class="hidden">
             <h2>Quiz Summary</h2>
-            <p id="final-score"></p>
-            <button id="submit-feedback">Provide Feedback</button>
-            <button id="view-leaderboard">View Leaderboard</button>
+            <div id="detailed-results"></div>
+            <p id="final-score">Final Score: 0</p>
+            <button id="restart-btn" class="hidden">Restart Quiz</button>
+            <!-- Feedback and Leaderboard buttons or functionality can be added here -->
         </div>
-
-        <!-- Feedback and Leaderboard screens go here -->
-        <!-- ... -->
     </div>
 
-        <!-- Footer implementation -->
     <footer>
         <p>© 2024 Titan Challenge. All rights reserved.</p>
         <p>For support, contact us at <a href="mailto:support@titanchallenge.com">support@titanchallenge.com</a>.</p>
