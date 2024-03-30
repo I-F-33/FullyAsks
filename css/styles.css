@@ -1,0 +1,72 @@
+/* Reset some default styles */
+body, h1, p {
+    margin: 0;
+    padding: 0;
+}
+
+/* Basic body styles */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+    padding: 20px;
+}
+
+/* Header styles */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+/* Main section styles */
+main {
+    margin-top: 20px;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Question styles */
+#question {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+/* Answer button styles */
+.btn {
+    display: inline-block;
+    background: #333;
+    color: #fff;
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn:hover {
+    background: #555;
+}
+
+/* Footer styles */
+footer {
+    margin-top: 30px;
+    text-align: center;
+    color: #666;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+    .btn {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+    }
+}

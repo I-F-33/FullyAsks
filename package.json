@@ -1,0 +1,23 @@
+{
+  "name": "quizgame",
+  "version": "1.0.0",
+  "description": " My quiz game project is a web-based application that provides a dynamic and interactive quiz experience to users.",
+  "main": "index.js",
+  "scripts": {
+    "test": " echo \"No test specified\" && exit 0"
+  },
+  "keywords": [
+    "[\"quiz\"",
+    "\"game\"",
+    "\"trivia\"",
+    "\"interactive\"",
+    "\"education\"",
+    "\"node.js\"",
+    "\"javascript\"",
+    "\"html\"",
+    "\"css\"",
+    "\"web\"]"
+  ],
+  "author": "Duong Fatemeh Ivan Ben",
+  "license": "ISC"
+}
