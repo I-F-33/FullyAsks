@@ -2,10 +2,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     const startButton = document.getElementById('start-btn');
     const playerNameInput = document.getElementById('player-name');
-
     startButton.addEventListener('click', () => {
         const playerName = playerNameInput.value.trim();
-        if(playerName) {
+        if (playerName) {
             startQuiz(playerName);
         } else {
             alert("Please enter your name!");
@@ -13,52 +12,75 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+let currentQuestionIndex = 0; // Keep track of the current question
+let questions = [
+    // Placeholder for questions. Ideally, this should be loaded from your backend or database
+    {
+        question: "What is 2 + 2?",
+        answers: [
+            { text: "4", correct: true },
+            { text: "3", correct: false },
+            { text: "5", correct: false },
+            { text: "22", correct: false }
+        ]
+    },
+    // Add more questions as needed
+];
+
 function startQuiz(playerName) {
-    // Hide start screen and show question screen
     document.getElementById('start-screen').classList.add('hidden');
     document.getElementById('question-screen').classList.remove('hidden');
-
-    // Load first question
     loadQuestion();
 }
 
 function loadQuestion() {
-    // This function would fetch questions from the backend and display them
-    // For now, we'll just display a dummy question and answers
+    const question = questions[currentQuestionIndex];
     const questionElement = document.getElementById('question');
+    questionElement.textContent = question.question;
     const answerButtonsElement = document.getElementById('answer-buttons');
-    const nextButton = document.getElementById('next-btn');
+    answerButtonsElement.innerHTML = ''; // Clear previous answers
 
-    questionElement.textContent = "What is 2 + 2?";
-    answerButtonsElement.innerHTML = `
-        <button class="btn">1</button>
-        <button class="btn">2</button>
-        <button class="btn">3</button>
-        <button class="btn">4</button>
-    `;
-
-    answerButtonsElement.querySelectorAll('.btn').forEach(button => {
-        button.addEventListener('click', (event) => {
-            const selectedAnswer = event.target.textContent;
-            if(selectedAnswer === "4") {
-                alert("Correct!");
-            } else {
-                alert("Wrong!");
-            }
-            nextButton.classList.remove('hidden');
-        });
+    question.answers.forEach(answer => {
+        const button = document.createElement('button');
+        button.innerText = answer.text;
+        button.classList.add('btn');
+        button.dataset.correct = answer.correct; // Use dataset to mark the correct answer
+        button.addEventListener('click', selectAnswer);
+        answerButtonsElement.appendChild(button);
     });
 
-    nextButton.addEventListener('click', showSummary);
+    // Hide the next button until an answer is selected
+    document.getElementById('next-btn').classList.add('hidden');
 }
+
+function selectAnswer(e) {
+    const selectedButton = e.target;
+    const correct = selectedButton.dataset.correct === 'true'; // Check if the selected answer is correct
+
+    // Highlight answers and disable buttons
+    document.querySelectorAll('.btn').forEach(button => {
+        button.disabled = true; // Disable all answer buttons
+        if (button.dataset.correct === 'true') {
+            button.classList.add('correct'); // Highlight correct answers in green
+        } else {
+            button.classList.add('incorrect'); // Highlight incorrect answers in red
+        }
+    });
+
+    // Show the next button
+    document.getElementById('next-btn').classList.remove('hidden');
+}
+
+document.getElementById('next-btn').addEventListener('click', () => {
+    currentQuestionIndex++; // Move to the next question
+    if (currentQuestionIndex < questions.length) {
+        loadQuestion(); // Load the next question
+    } else {
+        showSummary(); // Show the summary if there are no more questions
+    }
+});
 
 function showSummary() {
-    // Hide question screen and show summary screen
-    document.getElementById('question-screen').classList.add('hidden');
-    document.getElementById('summary-screen').classList.remove('hidden');
-
-    // Show final score, for now it's just a placeholder
-    document.getElementById('final-score').textContent = "You scored: X points";
+    // Implement summary display logic here
+    console.log("Quiz Completed");
 }
-
-// We would have additional functions to handle feedback submission and leaderboard display
