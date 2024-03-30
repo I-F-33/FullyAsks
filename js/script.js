@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const playerNameInput = document.getElementById('player-name');
     startButton.addEventListener('click', () => {
         const playerName = playerNameInput.value.trim();
-        if (playerName) {
+        if(playerName) {
             startQuiz(playerName);
         } else {
             alert("Please enter your name!");
@@ -12,16 +12,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-let currentQuestionIndex = 0; // Keep track of the current question
-let questions = [
-    // Placeholder for questions. Ideally, this should be loaded from your backend or database
+let currentQuestionIndex = 0; // Tracks the current question
+let score = 0; // Tracks the user's score
+let results = []; // Stores results for each question
+
+const questions = [
     {
         question: "What is 2 + 2?",
         answers: [
             { text: "4", correct: true },
             { text: "3", correct: false },
-            { text: "5", correct: false },
-            { text: "22", correct: false }
+            { text: "22", correct: false },
+            { text: "5", correct: false }
         ]
     },
     // Add more questions as needed
@@ -44,7 +46,7 @@ function loadQuestion() {
         const button = document.createElement('button');
         button.innerText = answer.text;
         button.classList.add('btn');
-        button.dataset.correct = answer.correct; // Use dataset to mark the correct answer
+        button.dataset.correct = answer.correct; // Mark the button as correct or incorrect
         button.addEventListener('click', selectAnswer);
         answerButtonsElement.appendChild(button);
     });
@@ -55,9 +57,18 @@ function loadQuestion() {
 
 function selectAnswer(e) {
     const selectedButton = e.target;
-    const correct = selectedButton.dataset.correct === 'true'; // Check if the selected answer is correct
+    const correct = selectedButton.dataset.correct === 'true';
 
-    // Highlight answers and disable buttons
+    if(correct) {
+        score++;
+    }
+
+    results.push({
+        question: questions[currentQuestionIndex].question,
+        yourAnswer: selectedButton.innerText,
+        correct
+    });
+
     document.querySelectorAll('.btn').forEach(button => {
         button.disabled = true; // Disable all answer buttons
         if (button.dataset.correct === 'true') {
@@ -81,6 +92,19 @@ document.getElementById('next-btn').addEventListener('click', () => {
 });
 
 function showSummary() {
-    // Implement summary display logic here
-    console.log("Quiz Completed");
+    document.getElementById('question-screen').classList.add('hidden');
+    document.getElementById('summary-screen').classList.remove('hidden');
+    const summaryScreen = document.getElementById('summary-screen');
+    summaryScreen.innerHTML = `<h2>Quiz Summary</h2><p>Your final score is ${score} out of ${questions.length}</p>`;
+
+    results.forEach((result, index) => {
+        const resultElement = document.createElement('div');
+        resultElement.innerHTML = `
+            <p>Question ${index + 1}: ${result.question}</p>
+            <p>Your answer: ${result.yourAnswer} - ${result.correct ? 'Correct' : 'Incorrect'}</p>
+        `;
+        summaryScreen.appendChild(resultElement);
+    });
+
+    // Reset for a new game or provide options for feedback/leaderboard here
 }
