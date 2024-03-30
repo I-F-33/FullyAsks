@@ -1,55 +1,64 @@
 // Waits for the HTML to fully load before attempting to load the first question.
 document.addEventListener('DOMContentLoaded', () => {
-    loadQuestion();
+    const startButton = document.getElementById('start-btn');
+    const playerNameInput = document.getElementById('player-name');
+
+    startButton.addEventListener('click', () => {
+        const playerName = playerNameInput.value.trim();
+        if(playerName) {
+            startQuiz(playerName);
+        } else {
+            alert("Please enter your name!");
+        }
+    });
 });
 
-let currentQuestionIndex = 0;
-let score = 0; // Keep track of the score
+function startQuiz(playerName) {
+    // Hide start screen and show question screen
+    document.getElementById('start-screen').classList.add('hidden');
+    document.getElementById('question-screen').classList.remove('hidden');
 
-// Makes a fetch request to your backend service to retrieve questions. You'll need to replace /api/questions with the actual URL of your backend endpoint.
-function loadQuestion() {
-    fetch('/api/questions')
-        .then(response => response.json())
-        .then(data => {
-            showQuestion(data.questions[currentQuestionIndex]);
-        })
-        .catch(error => {
-            console.error('Error fetching questions:', error);
-        });
+    // Load first question
+    loadQuestion();
 }
 
-//Takes the current question object and updates the DOM to display the question and its answers as buttons
-function showQuestion(question) {
+function loadQuestion() {
+    // This function would fetch questions from the backend and display them
+    // For now, we'll just display a dummy question and answers
     const questionElement = document.getElementById('question');
     const answerButtonsElement = document.getElementById('answer-buttons');
+    const nextButton = document.getElementById('next-btn');
 
-    // Reset the state
-    questionElement.innerText = '';
-    answerButtonsElement.innerHTML = '';
+    questionElement.textContent = "What is 2 + 2?";
+    answerButtonsElement.innerHTML = `
+        <button class="btn">1</button>
+        <button class="btn">2</button>
+        <button class="btn">3</button>
+        <button class="btn">4</button>
+    `;
 
-    // Set the question text
-    questionElement.innerText = question.question;
-
-    // Create buttons for each answer
-    question.answers.forEach(answer => {
-        const button = document.createElement('button');
-        button.innerText = answer.text;
-        button.classList.add('btn');
-        button.addEventListener('click', () => selectAnswer(answer.correct));
-        answerButtonsElement.appendChild(button);
+    answerButtonsElement.querySelectorAll('.btn').forEach(button => {
+        button.addEventListener('click', (event) => {
+            const selectedAnswer = event.target.textContent;
+            if(selectedAnswer === "4") {
+                alert("Correct!");
+            } else {
+                alert("Wrong!");
+            }
+            nextButton.classList.remove('hidden');
+        });
     });
+
+    nextButton.addEventListener('click', showSummary);
 }
 
-// Handles click events on answer buttons, checks if the selected answer is correct, updates the score, and loads the next question.
-function selectAnswer(correct) {
-    if (correct) {
-        console.log('Correct answer selected');
-        score++; // Increment the score
-    } else {
-        console.log('Wrong answer selected');
-    }
-    currentQuestionIndex++;
-    loadQuestion(); // Load the next question
+function showSummary() {
+    // Hide question screen and show summary screen
+    document.getElementById('question-screen').classList.add('hidden');
+    document.getElementById('summary-screen').classList.remove('hidden');
+
+    // Show final score, for now it's just a placeholder
+    document.getElementById('final-score').textContent = "You scored: X points";
 }
 
-// Add more functions as needed, such as for ending the quiz, showing the score, etc.
+// We would have additional functions to handle feedback submission and leaderboard display

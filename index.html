@@ -7,23 +7,33 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Titan Challenge</h1>
-    </header>
-    <main>
-        <div id="question-container">
+
+    <div id="quiz-container">
+        <div id="start-screen">
+            <h2>Enter Your Name to Start the Quiz</h2>
+            <input type="text" id="player-name" placeholder="Your name">
+            <button id="start-btn">Start Quiz</button>
+        </div>
+
+        <div id="question-screen" class="hidden">
             <div id="question">Question will go here</div>
             <div id="answer-buttons" class="btn-grid">
-                <button class="btn">Answer 1</button>
-                <button class="btn">Answer 2</button>
-                <button class="btn">Answer 3</button>
-                <button class="btn">Answer 4</button>
+                <!-- Answer buttons will be generated here -->
             </div>
+            <button id="next-btn" class="hidden">Next Question</button>
         </div>
-    </main>
-    <footer>
-        <p>Created by Your Name</p>
-    </footer>
+
+        <div id="summary-screen" class="hidden">
+            <h2>Quiz Summary</h2>
+            <p id="final-score"></p>
+            <button id="submit-feedback">Provide Feedback</button>
+            <button id="view-leaderboard">View Leaderboard</button>
+        </div>
+
+        <!-- Feedback and Leaderboard screens go here -->
+        <!-- ... -->
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
