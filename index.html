@@ -32,11 +32,46 @@
         </div>
     </div>
 
+    <!-- Contact Start -->
+ 
+                            <div class="contact-form">
+                                <div id="success"></div>
+                                <form name="sentMessage"  id="contactForm" novalidate="novalidate" action="mail/contact.php" method="POST">
+                                    <div class="control-group">
+                                        <input type="text" class="form-control" id="name" placeholder="Your Name" required="required" data-validation-required-message="Please enter your name" />
+                                        <p class="help-block"></p>
+                                    </div>
+                                    <div class="control-group">
+                                        <input type="email" class="form-control" id="email" placeholder="Your Email" required="required" data-validation-required-message="Please enter your email" />
+                                        <p class="help-block"></p>
+                                    </div>
+                                    <div class="control-group">
+                                        <input type="text" class="form-control" id="subject" placeholder="Subject" required="required" data-validation-required-message="Please enter a subject" />
+                                        <p class="help-block"></p>
+                                    </div>
+                                    <div class="control-group">
+                                        <textarea class="form-control" id="message" placeholder="Message" required="required" data-validation-required-message="Please enter your message"></textarea>
+                                        <p class="help-block"></p>
+                                    </div>
+                                    <div>
+                                        <button class="btn" type="submit" id="sendMessageButton">Send Message</button>
+                                    </div>
+                                </form>
+                            </div>
+        <!-- Contact End -->
+        
+    
     <footer>
         <p>© 2024 Titan Challenge. All rights reserved.</p>
         <p>For support, contact us at <a href="mailto:support@titanchallenge.com">support@titanchallenge.com</a>.</p>
     </footer>
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> 
+        <script src="script.js"></script>
 
-    <script src="script.js"></script>
+        
+        <!-- Contact Javascript File -->
+        <script src="mail/jqBootstrapValidation.min.js"></script>
+        <script src="mail/contact.js"></script>
 </body>
 </html>
