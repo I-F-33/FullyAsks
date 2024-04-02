@@ -1,0 +1,5 @@
+#config details for db
+db/config.py
+
+#node modules
+node_modules/
