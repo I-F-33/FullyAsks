@@ -2,12 +2,13 @@ import mysql.connector as mysql
 from mysql.connector import Error
 import pandas as pd
 import numpy as np
+import config as config
 
-dbuser = 'admin'
-dbpassword = 'FullyAsks01'
-dbhost = 'fullyasksdb.ctwoq4ouq4kl.us-east-1.rds.amazonaws.com'
-dbdatabase = ''
-database_name = 'questions'
+dbuser = config.dbuser
+dbpassword = config.dbpassword
+dbhost = config.dbhost
+dbdatabase = config.dbdatabase
+database_name = config.database_name
 
 
 def create_questions_df():
