@@ -1,5 +1,0 @@
-dbuser = 'admin'
-dbpassword = 'FullyAsks01'
-dbhost = 'fullyasksdb.ctwoq4ouq4kl.us-east-1.rds.amazonaws.com'
-dbdatabase = ''
-database_name = 'questions'
