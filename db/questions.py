@@ -68,8 +68,8 @@ def create_questions_table(connection):
         print('establishing cursor')
         cursor = connection.cursor()
 
-        print('create database')
-        cursor.execute('CREATE DATABASE IF NOT EXISTS questions;')
+        #print('create database')
+        #cursor.execute('CREATE DATABASE IF NOT EXISTS questions;')
         
         print('selecting database')
         cursor.execute('USE questions;')
@@ -237,7 +237,7 @@ def close_connection(connection):
 
 if __name__ == '__main__':
     connection = create_connection()
-    check_table_exists(connection, 'game_record')
+    select_all_questions(connection)    
     close_connection(connection)
 
 

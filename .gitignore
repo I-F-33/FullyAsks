@@ -1,5 +1,5 @@
 #config details for db
 db/config.py
-
+db/jsconfig.js
 #node modules
 node_modules/
