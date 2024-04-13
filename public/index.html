@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Titan Challenge</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+    <div id="quiz-container">
+        <div id="start-screen">
+            <h2>Enter Your Name to Start the Quiz</h2>
+            <input type="text" id="player-name" placeholder="Your name">
+            <button id="start-btn">Start Quiz</button>
+        </div>
+
+        <div id="question-screen" class="hidden">
+            <div id="progress">Question X of Y</div>
+            <div id="score">Score: 0</div>
+            <div id="question">Question will go here</div>
+            <div id="answer-buttons" class="btn-grid"></div>
+            <button id="next-btn" class="hidden">Next Question</button>
+        </div>
+
+        <div id="summary-screen" class="hidden">
+            <h2>Quiz Summary</h2>
+            <div id="detailed-results"></div>
+            <p id="final-score">Final Score: 0</p>
+            <button id="restart-btn" class="hidden">Restart Quiz</button>
+            <!-- Feedback and Leaderboard buttons or functionality can be added here -->
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 Titan Challenge. All rights reserved.</p>
+        <p>For support, contact us at <a href="mailto:support@titanchallenge.com">support@titanchallenge.com</a>.</p>
+    </footer>
+
+    <script src="/js/script.js"></script>
+</body>
+</html>
