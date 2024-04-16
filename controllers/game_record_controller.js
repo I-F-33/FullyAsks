@@ -30,5 +30,7 @@ async function fetchTop5GameRecords() {
     }
 }
 
-module.exports = fetchTop5GameRecords; 
-module.exports = insertGameRecord;
+module.exports = {
+    fetchTop5GameRecords,
+    insertGameRecord
+};

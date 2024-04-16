@@ -30,5 +30,7 @@ async function getUserByUsername(username) {
     }
 }
 
-module.exports = getUserByUsername;
-module.exports = createUser; 
+module.exports = {
+    getUserByUsername,
+    createUser
+};
