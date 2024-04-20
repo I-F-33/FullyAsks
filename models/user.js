@@ -13,15 +13,10 @@ const User = sequelize.define('User', {
     allowNull: false
   },
   // Add other user attributes as needed
-  email: {
-    type: DataTypes.STRING,
+  year: {
+    type: DataTypes.INTEGER,
     allowNull: false
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  // etc...
+  }
 }, {
   // Other model options go here
   tableName: 'users', // Specify the table name if different from model name

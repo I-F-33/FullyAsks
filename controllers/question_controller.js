@@ -23,6 +23,11 @@ async function fetchRandomQuestions(limit = 10) {
     }
 }
 
+//test the function
+//let questions = fetchRandomQuestions();
+//console.log(questions);
+
+
 module.exports = {
     fetchRandomQuestions 
 };
