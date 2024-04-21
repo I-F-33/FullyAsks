@@ -1,9 +1,9 @@
-const User = require('../models/user'); // Import the User model
+const UserModel = require('../models/user'); // Import the User model
 
 async function createUser(userData) {
     try {
         // Create a new user in the database using the User model
-        const newUser = await User.create(userData);
+        const newUser = await UserModel.User.create(userData);
 
         // Return the newly created user
         return newUser;
@@ -16,7 +16,7 @@ async function createUser(userData) {
 async function getUserByUsername(username) {
     try {
         // Use the findOne method to query for a user by username
-        const user = await User.findOne({
+        const user = await UserModel.User.findOne({
             where: {
                 username: username, // Specify the username to search for
             },

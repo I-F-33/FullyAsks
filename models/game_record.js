@@ -1,11 +1,11 @@
 // models/GameRecord.js
 
 const { DataTypes } = require('sequelize');
-const sequelize = require('../db/appdb');
+const database = require('../db/appdb');
 const User = require('../models/user'); // Import the User model
 
 // Define the GameRecord model
-const GameRecord = sequelize.define('GameRecord', {
+const GameRecord = database.sequelize.define('GameRecord', {
     // Define the model attributes
     game_id: {
         type: DataTypes.INTEGER,
@@ -31,7 +31,7 @@ const GameRecord = sequelize.define('GameRecord', {
 });
 
 // Define the association between GameRecord and User
-GameRecord.belongsTo(User, {
+GameRecord.belongsTo(User.User, {
     foreignKey: 'user_id', // Specify the foreign key
 });
 

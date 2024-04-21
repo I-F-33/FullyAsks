@@ -47,6 +47,6 @@ const sequelize = new Sequelize(databaseURL, {
 }
 
 // Test the database connection
-testConnection();
+//testConnection();
 // Export the Sequelize instance
-module.exports = sequelize;
+module.exports = {sequelize};

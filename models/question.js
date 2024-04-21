@@ -1,10 +1,10 @@
 // models/Question.js
 
 const { DataTypes } = require('sequelize');
-const sequelize = require('../db/appdb.js');
+const database = require('../db/appdb.js');
 
 // Define the Question model
-const Question = sequelize.define('Question', {
+const Question = database.sequelize.define('Question', {
     // Define the model attributes
     question_id: {
         type: DataTypes.INTEGER,
@@ -46,4 +46,4 @@ const Question = sequelize.define('Question', {
 });
 
 // Export the Question model
-module.exports = Question;
+module.exports = {Question};

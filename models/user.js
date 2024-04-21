@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../db/appdb'); // make sure this path is correct
+const database = require('../db/appdb'); // make sure this path is correct
 
-const User = sequelize.define('User', {
+const User = database.sequelize.define('User', {
   // The model attributes are defined here
   user_id: {
     type: DataTypes.INTEGER,
@@ -26,4 +26,4 @@ const User = sequelize.define('User', {
 // If you have other associations, you can define them here, for example:
 // User.hasMany(OtherModel, { foreignKey: 'user_id' });
 
-module.exports = User;
+module.exports = {User};

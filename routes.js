@@ -9,7 +9,7 @@ const userController = require('./controllers/user_controller');
 // Questions routes
 router.get('/questions', async (req, res) => {
     try {
-        const questions = await questionController.fetchAllQuestions();
+        const questions = await questionController.fetchRandomQuestions(10);
         res.json(questions);
     } catch (error) {
         res.status(500).json({ error: error.message });
