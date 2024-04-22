@@ -42,14 +42,11 @@ router.post('/createUser', async (req, res) => {
         console.log('Creating User in /Createuser');
         console.log(req.body);
 
-        player = {
-            username: req.body.playerName,
-            year: req.body.playerYear
-        }
-        console.log(player);
+        const playerName = req.body.playerName;
+        const playerYear = req.body.playerYear;
 
-        const user = await userController.createUser(player.username, player.year);
-
+        const user = await userController.createUser(playerName, playerYear);
+        
         console.log('Success:', user);
 
         res.status(201).json(user);
