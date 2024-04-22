@@ -29,7 +29,7 @@ router.post('/saveGameRecord', async (req, res) => {
 
 router.get('/game-records/top', async (req, res) => {
     try {
-        const topRecords = await gameRecordController.fetchTop5GameRecords();
+        const topRecords = await gameRecordController.fetchTop3GameRecords();
         res.json(topRecords);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -57,7 +57,10 @@ router.post('/createUser', async (req, res) => {
 
 router.get('/users/:username', async (req, res) => {
     try {
-        const user = await userController.getUserByUsername(req.params.username);
+        console.log('Fetching User in /users/:username');
+        const playerName = req.params.playerName;
+        const playerYear = req.params.playerYear;
+        const user = await userController.getUserByUsernameAndYear(playerName, playerYear);
         res.json(user);
     } catch (error) {
         res.status(500).json({ error: error.message });
