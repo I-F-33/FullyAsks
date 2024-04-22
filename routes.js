@@ -17,7 +17,7 @@ router.get('/questions', async (req, res) => {
 });
 
 // Game records routes
-router.post('/game-records', async (req, res) => {
+router.post('/saveGameRecord', async (req, res) => {
     try {
         const { userId, score } = req.body;
         const gameRecord = await gameRecordController.insertGameRecord(userId, score);

@@ -10,7 +10,7 @@ async function createUser(username, classYear) {
         console.log('Connection has been established successfully.');
 
         // Check to see if user already exists
-        const user = await getUserByUsernameAndYear(username, classYear);
+        const user = await checkIfUserExists(username, classYear);
 
         if (user) {
             console.log('User already exists');
@@ -43,7 +43,7 @@ async function createUser(username, classYear) {
 
 
 
-async function getUserByUsernameAndYear(username, classYear) {
+async function checkIfUserExists(username, classYear) {
     try {
         // Use the findOne method to query for a user by username
         const user = await UserModel.User.findOne({
@@ -52,7 +52,6 @@ async function getUserByUsernameAndYear(username, classYear) {
                 year: classYear
             },
         });
-
         // Return the user object if found, or null if not found
         return user;
     } catch (error) {
@@ -61,7 +60,42 @@ async function getUserByUsernameAndYear(username, classYear) {
     }
 }
 
+async function getUserByUsernameAndYear(username, year) {
+
+    try {
+        console.log('fetching user by username and year');
+        
+        // Authenticate the database connection asynchronously
+        await database.sequelize.authenticate();
+        console.log('Connection has been established successfully.');
+
+        // Check to see if user already exists
+        const user = await checkIfUserExists(username, year);
+
+        if (!user) {
+            alert('User does not exist');
+            alert('Please create a new user');
+            return null;
+        }
+        
+        console.log('User exists');
+        console.log('User:', user.dataValues);
+
+        
+        // Return the newly created user
+        return user.dataValues;
+    } catch (error) {
+        console.error('Error creating user:', error);
+        throw error; // Optionally, re-throw the error if you want to handle it further up the chain
+    } finally {
+        // Always close the database connection, whether an error occurred or not
+        database.sequelize.close();
+        console.log('Connection closed');
+    }
+}
+
 module.exports = {
-    getUserByUsernameAndYear,
-    createUser
+    checkIfUserExists,
+    createUser,
+    getUserByUsernameAndYear
 };
