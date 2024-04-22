@@ -20,7 +20,7 @@ const User = database.sequelize.define('User', {
 }, {
   // Other model options go here
   tableName: 'users', // Specify the table name if different from model name
-  timestamps: true // If you want Sequelize to automatically add `createdAt` and `updatedAt`
+  timestamps: false // If you want Sequelize to automatically add `createdAt` and `updatedAt`
 });
 
 // If you have other associations, you can define them here, for example:

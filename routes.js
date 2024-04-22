@@ -37,10 +37,22 @@ router.get('/game-records/top', async (req, res) => {
 });
 
 // Users routes
-router.post('/users', async (req, res) => {
+router.post('/createUser', async (req, res) => {
     try {
-        const newUser = await userController.createUser(req.body);
-        res.status(201).json(newUser);
+        console.log('Creating User in /Createuser');
+        console.log(req.body);
+
+        player = {
+            username: req.body.playerName,
+            year: req.body.playerYear
+        }
+        console.log(player);
+
+        const user = await userController.createUser(player.username, player.year);
+
+        console.log('Success:', user);
+
+        res.status(201).json(user);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

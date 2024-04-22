@@ -1,24 +1,63 @@
-// Waits for the HTML to fully load before attempting to load the first question.
-document.addEventListener('DOMContentLoaded', () => {
-    const startButton = document.getElementById('start-btn');
-    const playerNameInput = document.getElementById('player-name');
-    startButton.addEventListener('click', () => {
-        const playerName = playerNameInput.value.trim();
-        if (playerName) {
-            loadQuestions(playerName); // Load questions and start the quiz
-        } else {
-            alert("Please enter your name!");
-        }
-    });
-});
 
 let currentQuestionIndex = 0; // Tracks the current question
 let score = 0; // Tracks the user's score
 let questions = []; // Will store the fetched questions
+let user = {}; // Will store the user object
+
+// Waits for the HTML to fully load before attempting to load the first question.
+document.addEventListener('DOMContentLoaded', () => {
+    const startButton = document.getElementById('start-btn');
+    const playerNameInput = document.getElementById('player-name');
+    const playerClassYear = document.getElementById('player-year');
+
+    console.log('Content loaded!'); // Log that the content has loaded
+
+    startButton.addEventListener('click', () => {
+        console.log('Start button clicked!'); // Log that the start button was clicked
+        const playerName = playerNameInput.value.trim();
+        const playerYear = playerClassYear.value.trim();
+
+        if (playerName != '' && playerYear != '') {
+            console.log('Player name:', playerName); // Log the player's name
+            console.log('Player year:', playerYear); // Log the player's class year
+    
+            const player = { playerName, playerYear };
+            console.log('Player object:', player); // Log the player object
+
+            fetch('/createUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(player),
+            })
+                .then(response => {
+                    console.log('Response:', response);
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Success:', data);
+
+                    //log the user
+                    console.log('User:', data);
+                    //Do what you want here with the user data!!!!
+                    user = data;
+
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+
+                loadQuestions(playerName); // Load questions and start the quiz
+        } else {
+            alert("Please enter your name or your class year!");
+        }
+    });
+});
 
 // Function to load questions from the server and start the quiz
 function loadQuestions() {
-    fetch('/api/questions')
+    fetch('/questions')
         .then(response => response.json())
         .then(loadedQuestions => {
             console.log('Questions loaded:', loadedQuestions); // What does this log?
