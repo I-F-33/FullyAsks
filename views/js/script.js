@@ -3,6 +3,10 @@ let currentQuestionIndex = 0; // Tracks the current question
 let score = 0; // Tracks the user's score
 let questions = []; // Will store the fetched questions
 let user = {}; // Will store the user object
+let timer;
+let timeLeft = 30; // seconds for each question
+let results = []; // Will store the results of each question
+
 
 // Waits for the HTML to fully load before attempting to load the first question.
 document.addEventListener('DOMContentLoaded', () => {
@@ -55,24 +59,69 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+function startTimer() {
+    timer = setInterval(() => {
+        timeLeft--;
+        const timerElement = document.getElementById('timer');
+        timerElement.textContent = `Time Remaining: ${timeLeft}s`;
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            showTimeUp(); // Move to the next question when time is up
+        }
+    }, 1000);
+}
+
+
+function resetTimer() {
+    stopTimer(); // Stop the current timer
+    timeLeft = 30; // Reset the time for the next question
+
+    const timerElement = document.getElementById('timer');
+    timerElement.textContent = `Time Remaining: ${timeLeft}s`;
+}
+
+function stopTimer() {
+    clearInterval(timer);
+}
+
+function showTimeUp() {
+    // Directly move to the next question without alerting the user
+    moveToNextQuestion();
+}
+
+
+function updateScore(isCorrect) {
+    const scoreElement = document.getElementById('score');
+    if (isCorrect) {
+        score++;
+        scoreElement.classList.add('score-increase');
+        setTimeout(() => scoreElement.classList.remove('score-increase'), 500);
+    }
+    scoreElement.textContent = `Score: ${score}`;
+}
+
+
 // Function to load questions from the server and start the quiz
 function loadQuestions() {
     fetch('/questions')
         .then(response => response.json())
         .then(loadedQuestions => {
-            console.log('Questions loaded:', loadedQuestions); // What does this log?
+            console.log('Questions loaded:', loadedQuestions);
             questions = loadedQuestions;
             startQuiz();
         })
         .catch(error => {
             console.error('Error loading questions:', error);
         });
+        resetTimer(); // Reset and start the timer for the new question
+        startTimer(); // Start the countdown for the current question
 }
 
 function startQuiz(playerName) {
     document.getElementById('start-screen').classList.add('hidden');
     document.getElementById('question-screen').classList.remove('hidden');
     loadQuestion(); // Load the first question
+    startTimer();   // Start the timer
 }
 
 function loadQuestion() {
@@ -85,60 +134,74 @@ function loadQuestion() {
     const answerButtonsElement = document.getElementById('answer-buttons');
     answerButtonsElement.innerHTML = '';
 
-    // Ensure the question has an 'answers' property and it's an array
-    if (question.answers) {
-        question.answers.forEach(answer => {
+    // Dynamically create buttons for each choice.
+    // This assumes you have 4 choices per question.
+    for (let i = 1; i <= 4; i++) {
+        const choiceKey = `choice_${i}`;
+        if (question[choiceKey]) {
             const button = document.createElement('button');
-            button.innerText = answer.text;
+            button.innerText = question[choiceKey];
             button.classList.add('btn');
-            button.dataset.correct = answer.correct;
+            button.dataset.correct = question.correct_answer === i.toString();
             
-            // Make sure the event listener is properly attached
             button.addEventListener('click', selectAnswer);
-            
-            // Append the button to the answer buttons container
             answerButtonsElement.appendChild(button);
-        });
-      
-    } else {
-        console.log('No answers property on the question object.');
-        // Handle case where there are no answers
+        }
     }
 
     // Hide the next button until an answer is selected
     document.getElementById('next-btn').classList.add('hidden');
 }
 
+
 function selectAnswer(e) {
-    console.log('Answer clicked:', e.target); // Log which button was clicked
     const selectedButton = e.target;
-    const correct = selectedButton.dataset.correct === 'true';
-    console.log('Is the selected answer correct?', correct); // Check if the answer is correct
+    const correctAnswer = questions[currentQuestionIndex].correct_answer;
+    const isCorrect = selectedButton.innerText === correctAnswer;
 
-    if (correct) {
-        score++;
-        console.log('Score updated:', score); // Log the updated score
-    }
+    // Update the score if the answer is correct
+    updateScore(isCorrect);
 
-    // Assuming 'results' array is declared globally to store the user's answers
+    // Add the question and the user's answer to the results array
     results.push({
         question: questions[currentQuestionIndex].question,
-        yourAnswer: selectedButton.innerText,
-        correct
+        answer: selectedButton.innerText,
+        isCorrect: isCorrect // This is a boolean indicating if the answer was correct
     });
 
-    document.querySelectorAll('.btn').forEach(button => {
-        button.disabled = true;
-        if (button.dataset.correct === 'true') {
-            button.classList.add('correct');
+    // Stop the timer when an answer is selected
+    stopTimer();
+
+    // Provide immediate visual feedback on the answer
+    selectedButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+    
+    // Wait 2 seconds to provide feedback, then move to the next question
+    setTimeout(() => {
+        selectedButton.classList.remove(isCorrect ? 'correct' : 'incorrect');
+
+        if (currentQuestionIndex < questions.length - 1) {
+            // Move to the next question if there are any left
+            moveToNextQuestion();
         } else {
-            button.classList.add('incorrect');
+            // If it was the last question, show the summary
+            showSummary();
         }
-    });
-
-    // Show the next button
-    document.getElementById('next-btn').classList.remove('hidden');
+    }, 2000);
 }
+
+
+function moveToNextQuestion() {
+    currentQuestionIndex++;
+    
+    if (currentQuestionIndex < questions.length) {
+        loadQuestion(); // Load the next question
+        resetTimer();   // Reset the timer for the new question
+        startTimer();   // Start the new timer
+    } else {
+        showSummary();  // Show the summary if there are no more questions
+    }
+}
+
 
 // Check if the next button exists and add the event listener
 const nextButton = document.getElementById('next-btn');
@@ -157,19 +220,20 @@ if (nextButton) {
 
 
 function showSummary() {
-    document.getElementById('question-screen').classList.add('hidden');
-    document.getElementById('summary-screen').classList.remove('hidden');
+    document.getElementById('question-screen').classList.add('hidden'); // Hide the question screen
     const summaryScreen = document.getElementById('summary-screen');
-    summaryScreen.innerHTML = `<h2>Quiz Summary</h2><p>Your final score is ${score} out of ${questions.length}</p>`;
+    summaryScreen.classList.remove('hidden'); // Show the summary screen
 
+    summaryScreen.innerHTML = '<h2>Quiz Summary</h2>'; // Reset the innerHTML
     results.forEach((result, index) => {
-        const resultElement = document.createElement('div');
-        resultElement.innerHTML = `
-            <p>Question ${index + 1}: ${result.question}</p>
-            <p>Your answer: ${result.yourAnswer} - ${result.correct ? 'Correct' : 'Incorrect'}</p>
-        `;
+        const resultElement = document.createElement('p');
+        resultElement.textContent = `Question ${index + 1}: ${result.question} - Your Answer: ${result.answer} (${result.isCorrect ? 'Correct' : 'Incorrect'})`;
         summaryScreen.appendChild(resultElement);
     });
 
-    // Reset for a new game or provide options for feedback/leaderboard here
+
+    document.getElementById('final-score').textContent = `Final Score: ${score}`;
 }
+
+
+
