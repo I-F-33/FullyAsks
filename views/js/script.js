@@ -107,7 +107,7 @@ function loadQuestions() {
         .then(response => response.json())
         .then(loadedQuestions => {
             console.log('Questions loaded:', loadedQuestions);
-            questions = loadedQuestions;
+            questions = loadedQuestions;            
             startQuiz();
         })
         .catch(error => {

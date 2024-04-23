@@ -259,7 +259,7 @@ def close_connection(connection):
 
 if __name__ == '__main__':
     connection = create_connection()
-    select_all_users(connection)    
+    create_questions_table(connection)    
     close_connection(connection)
 
 

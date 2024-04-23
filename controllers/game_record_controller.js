@@ -1,4 +1,5 @@
 const GameRecordModel = require('../models/game_record');
+const database = require('../db/appdb');
 
 async function insertGameRecord(userId, score) {
     try {
