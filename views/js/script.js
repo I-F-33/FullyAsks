@@ -103,7 +103,11 @@ function updateScore(isCorrect) {
     scoreElement.textContent = `Score: ${score}`;
 }
 
-
+function updateQuestionProgress() {
+    const progressElement = document.getElementById('progress');
+    progressElement.textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+  }
+  
 // Function to load questions from the server and start the quiz
 async function loadQuestions() {
     try {
@@ -151,9 +155,9 @@ function loadQuestion() {
             answerButtonsElement.appendChild(button);
         }
     }
-
-    // Hide the next button until an answer is selected
-    document.getElementById('next-btn').classList.add('hidden');
+      // Call to update the question progress
+        updateQuestionProgress();
+        document.getElementById('next-btn').classList.remove('hidden');
 }
 
 
@@ -203,6 +207,8 @@ function moveToNextQuestion() {
     } else {
         showSummary();  // Show the summary if there are no more questions
     }
+    document.getElementById('next-btn').classList.remove('hidden');
+
 }
 
 
@@ -255,7 +261,8 @@ async function showSummary() {
     // Add detailed results to the summary
     results.forEach((result, index) => {
         const resultElement = document.createElement('p');
-        resultElement.textContent = `Question ${index + 1}: ${result.question} - Your Answer: ${result.answer} (${result.isCorrect ? 'Correct' : 'Incorrect'})`;
+        resultElement.textContent = `Question ${index + 1}: ${result.question} - Your Answer: ${result.answer}`;
+        resultElement.classList.add(result.isCorrect ? 'correct' : 'incorrect'); // Apply color based on the result
         summaryResults.appendChild(resultElement);
     });
 
