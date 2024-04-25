@@ -16,17 +16,22 @@ const databaseURL = `${dialect}://${dbUsername}:${dbPassword}@${dbHost}:${dbPort
 
 console.log(databaseURL)
 
+function createConnection() {
 // Create the Sequelize instance
-const sequelize = new Sequelize(databaseURL, {
-    dialect,
-    logging: false, // Optional: Disable Sequelize's SQL logging
-    pool: {
-        max: 20, // Maximum number of connections in the pool
-        min: 0, // Minimum number of connections in the pool
-        acquire: 30000, // Maximum time (in ms) to acquire a connection
-        idle: 10000, // Maximum time (in ms) a connection can be idle
-    },
-});
+    const sequelize = new Sequelize(databaseURL, {
+        dialect,
+        logging: false, // Optional: Disable Sequelize's SQL logging
+        pool: {
+            max: 20, // Maximum number of connections in the pool
+            min: 0, // Minimum number of connections in the pool
+            acquire: 30000, // Maximum time (in ms) to acquire a connection
+            idle: 10000, // Maximum time (in ms) a connection can be idle
+        },
+    });
+
+    
+    return sequelize;
+}
 
   function testConnection() {
     sequelize
@@ -49,4 +54,4 @@ const sequelize = new Sequelize(databaseURL, {
 // Test the database connection
 //testConnection();
 // Export the Sequelize instance
-module.exports = {sequelize};
+module.exports = {createConnection};

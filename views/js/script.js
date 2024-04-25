@@ -16,48 +16,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     console.log('Content loaded!'); // Log that the content has loaded
 
-    startButton.addEventListener('click', () => {
+    startButton.addEventListener('click', async () => {
         console.log('Start button clicked!'); // Log that the start button was clicked
         const playerName = playerNameInput.value.trim();
         const playerYear = playerClassYear.value.trim();
-
-        if (playerName != '' && playerYear != '') {
+    
+        if (playerName !== '' && playerYear !== '') {
             console.log('Player name:', playerName); // Log the player's name
             console.log('Player year:', playerYear); // Log the player's class year
     
             const player = { playerName, playerYear };
             console.log('Player object:', player); // Log the player object
-
-            fetch('/createUser', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(player),
-            })
-                .then(response => {
-                    console.log('Response:', response);
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('Success:', data);
-
-                    //log the user
-                    console.log('User:', data);
-                    //Do what you want here with the user data!!!!
-                    user = data;
-
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
+    
+            try {
+                const response = await fetch('/createUser', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(player),
                 });
-
-                loadQuestions(playerName); // Load questions and start the quiz
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Success:', data);
+                    user = data; // Store user data
+    
+                    // Load questions and start the quiz
+                    loadQuestions();
+                } else {
+                    console.error('Error:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
         } else {
             alert("Please enter your name or your class year!");
         }
     });
 });
+    
 
 function startTimer() {
     stopTimer();
@@ -107,19 +105,19 @@ function updateScore(isCorrect) {
 
 
 // Function to load questions from the server and start the quiz
-function loadQuestions() {
-    fetch('/questions')
-        .then(response => response.json())
-        .then(loadedQuestions => {
-            console.log('Questions loaded:', loadedQuestions);
-            questions = loadedQuestions;            
-            startQuiz();
-        })
-        .catch(error => {
-            console.error('Error loading questions:', error);
-        });
-        resetTimer(); // Reset and start the timer for the new question
-        startTimer(); // Start the countdown for the current question
+async function loadQuestions() {
+    try {
+        const response = await fetch('/questions');
+        const loadedQuestions = await response.json();
+        console.log('Questions loaded:', loadedQuestions);
+        questions = loadedQuestions;
+        startQuiz(); // Start the quiz after questions are loaded
+    } catch (error) {
+        console.error('Error loading questions:', error);
+        throw error; // Rethrow the error to handle it outside
+    }
+    resetTimer(); // Reset and start the timer for the new question
+    startTimer(); // Start the countdown for the current question
 }
 
 function startQuiz(playerName) {
@@ -266,7 +264,7 @@ function showSummary() {
     };
 }
 
-function restartQuiz() {
+async function restartQuiz() {
     // Reset quiz state
     currentQuestionIndex = 0;
     score = 0;
@@ -292,10 +290,13 @@ function restartQuiz() {
     document.getElementById('player-name').value = '';
     document.getElementById('player-year').value = '';
 
-    // No need to load questions here if they are loaded when the "Start Quiz" button is clicked
+    try {
+        // Load questions and start the quiz
+        await loadQuestions();
+    } catch (error) {
+        console.error('Error restarting quiz:', error);
+        // Handle the error if necessary
+    }
 }
-
-
-
-
-
+    
+    

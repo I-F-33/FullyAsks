@@ -5,12 +5,15 @@ async function createUser(username, classYear) {
     try {
         console.log('Creating User');
         
+        connection = await database.createConnection();
         // Authenticate the database connection asynchronously
-        await database.sequelize.authenticate();
+        await connection.authenticate();
         console.log('Connection has been established successfully.');
 
+        user_model = await UserModel.createUserModel(connection);
+
         // Check to see if user already exists
-        const user = await checkIfUserExists(username, classYear);
+        const user = await checkIfUserExists(username, classYear, user_model);
 
         if (user) {
             console.log('User already exists');
@@ -22,7 +25,7 @@ async function createUser(username, classYear) {
         console.log('Creating new user');
 
         // Create a new user in the database using the User model
-        const newUser = await UserModel.User.create({
+        const newUser = await user_model.create({
             username: username,
             year: classYear
         });
@@ -35,18 +38,19 @@ async function createUser(username, classYear) {
         console.error('Error creating user:', error);
         throw error; // Optionally, re-throw the error if you want to handle it further up the chain
     } finally {
+        
         // Always close the database connection, whether an error occurred or not
-        database.sequelize.close();
+        connection.close();
         console.log('Connection closed');
     }
 }
 
 
 
-async function checkIfUserExists(username, classYear) {
+async function checkIfUserExists(username, classYear, user_model) {
     try {
         // Use the findOne method to query for a user by username
-        const user = await UserModel.User.findOne({
+        const user = await user_model.findOne({
             where: {
                 username: username, // Specify the username to search for
                 year: classYear
@@ -66,7 +70,8 @@ async function getUserByUsernameAndYear(username, year) {
         console.log('fetching user by username and year');
         
         // Authenticate the database connection asynchronously
-        await database.sequelize.authenticate();
+        connection = await database.createConnection();
+        await connection.authenticate();
         console.log('Connection has been established successfully.');
 
         // Check to see if user already exists
@@ -89,7 +94,7 @@ async function getUserByUsernameAndYear(username, year) {
         throw error; // Optionally, re-throw the error if you want to handle it further up the chain
     } finally {
         // Always close the database connection, whether an error occurred or not
-        database.sequelize.close();
+        connection.close();
         console.log('Connection closed');
     }
 }

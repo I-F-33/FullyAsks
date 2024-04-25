@@ -7,13 +7,16 @@ async function fetchRandomQuestions(limit = 10) {
         try {
             console.log('fetching random questions');
             
+            connection = await database.createConnection();
             // Authenticate the database connection asynchronously
-            await database.sequelize.authenticate();
+            await connection.authenticate();
             console.log('Connection has been established successfully.');
+
+            Question = QuestionModel.createQuestionModel(connection);
             
             // load questions from the database
-            const questions = await QuestionModel.Question.findAll({
-                order: database.sequelize.random(), // Use random() function provided by Sequelize for MySQL
+            const questions = await Question.findAll({
+                order: connection.random(), // Use random() function provided by Sequelize for MySQL
                 limit: limit // Default limit to 10 if not specified
             });
 
@@ -27,7 +30,7 @@ async function fetchRandomQuestions(limit = 10) {
             throw error; // Optionally, re-throw the error if you want to handle it further up the chain
         } finally {
             // Always close the database connection, whether an error occurred or not
-            database.sequelize.close();
+            connection.close();
             console.log('Connection closed');
         }
     }

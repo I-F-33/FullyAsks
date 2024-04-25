@@ -4,7 +4,8 @@
   "description": " My quiz game project is a web-based application that provides a dynamic and interactive quiz experience to users.",
   "main": "index.js",
   "scripts": {
-    "test": " echo \"No test specified\" && exit 0"
+    "test": " echo \"No test specified\" && exit 0",
+    "start": "nodemon server.js"
   },
   "keywords": [
     "[\"quiz\"",
@@ -24,6 +25,7 @@
     "csv-parser": "^3.0.0",
     "express": "^4.19.2",
     "mysql2": "^3.9.4",
+    "nodemon": "^3.1.0",
     "sequelize": "^6.37.2"
   }
 }
