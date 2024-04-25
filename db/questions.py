@@ -213,6 +213,28 @@ def create_gamerecord_table(connection):
 
         print('Connection to MySQL database failed')
 
+def select_all_game_records(connection):
+    """This function will select all the records from the questions table and print it out to the console"""
+    if connection.is_connected():
+        cursor = connection.cursor(buffered=True)
+
+        print('selecting database')
+        cursor.execute('USE questions;')
+
+        print('selecting all records from game_record table')
+        cursor.execute('SELECT * FROM game_record;')
+
+        records = cursor.fetchall()
+
+        print('Printing all records')
+
+        for record in records:
+            print(record)
+
+        cursor.close()
+    else:
+        print('Connection to MySQL database failed')
+
 
 def check_table_exists(connection, table_name):
     # Create a cursor object to execute SQL queries
@@ -259,7 +281,7 @@ def close_connection(connection):
 
 if __name__ == '__main__':
     connection = create_connection()
-    create_questions_table(connection)    
+    select_all_game_records(connection)
     close_connection(connection)
 
 

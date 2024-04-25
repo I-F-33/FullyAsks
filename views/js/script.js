@@ -222,7 +222,28 @@ if (nextButton) {
 }
 
 
-function showSummary() {
+async function showSummary() {
+
+    try {
+        // Send a POST request to save the game record
+        const response = await fetch('/saveGameRecord', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ userId: user.user_id, score: score }),
+        });
+
+        if (response.ok) {
+            const savedGameRecord = await response.json();
+            console.log('Game record saved:', savedGameRecord);
+        } else {
+            console.error('Error saving game record:', response.statusText);
+        }
+    } catch (error) {
+        console.error('Error saving game record:', error);
+    }
+
     document.getElementById('start-screen').classList.add('hidden');
     var modal = document.getElementById("summary-modal");
     var span = document.getElementsByClassName("close-button")[0];
@@ -269,6 +290,7 @@ async function restartQuiz() {
     currentQuestionIndex = 0;
     score = 0;
     results = [];
+    questions = [];
 
     // Hide the summary modal and show the start screen
     var modal = document.getElementById("summary-modal");

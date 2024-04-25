@@ -36,6 +36,7 @@ function createGameRecordModel(connection, user){
         foreignKey: 'user_id', // Specify the foreign key
     });
 
+    return GameRecord;
 }
 
 // Export the GameRecord model
