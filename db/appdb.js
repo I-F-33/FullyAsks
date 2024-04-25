@@ -29,29 +29,42 @@ function createConnection() {
         },
     });
 
-    
+
     return sequelize;
 }
 
   function testConnection() {
+    // Create the Sequelize instance
+    const sequelize = new Sequelize(databaseURL, {
+        dialect,
+        logging: false, // Optional: Disable Sequelize's SQL logging
+        pool: {
+            max: 20, // Maximum number of connections in the pool
+            min: 0, // Minimum number of connections in the pool
+            acquire: 30000, // Maximum time (in ms) to acquire a connection
+            idle: 10000, // Maximum time (in ms) a connection can be idle
+        },
+    });
+
+    // Test the database connection
     sequelize
         .authenticate()
-        .then(async () => {
+        .then(() => {
             console.log('Connection has been established successfully.');
-            
-            console.log('Connection closed');
-            sequelize.close();
-            
         })
         .catch((error) => {
             console.error('Unable to connect to the database:', error);
+        })
+        .finally(() => {
+            // Close the database connection
+            sequelize.close();
+            console.log('Connection closed');
         });
-    
-        
-
 }
 
+
+
 // Test the database connection
-//testConnection();
+testConnection();
 // Export the Sequelize instance
 module.exports = {createConnection};
