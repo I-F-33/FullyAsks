@@ -176,14 +176,20 @@
             <div id="answer-buttons" class="btn-grid"></div>
             <button id="next-btn" class="hidden">Next Question</button>
         </div>
-
-        <div id="summary-screen" class="hidden">
-            <h2>Quiz Summary</h2>
-            <div id="detailed-results"></div>
-            <p id="final-score">Final Score: 0</p>
-            <button id="restart-btn" class="hidden">Restart Quiz</button>
-        </div>
     </div>
+
+    <!-- Pop-Up Summary Start -->
+<div id="summary-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-button">×</span>
+        <h2>Quiz Summary</h2>
+        <div id="summary-results"></div>
+        <p id="summary-final-score"></p>
+    </div>
+</div>
+<!-- Pop-Up Summary End -->
+
+    
 
     <!-- Leaderbord Start -->
     <div class="container-xxl feature py-5" id="leaderboard">

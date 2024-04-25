@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function startTimer() {
+    stopTimer();
     timer = setInterval(() => {
         timeLeft--;
         const timerElement = document.getElementById('timer');
@@ -85,8 +86,12 @@ function stopTimer() {
 }
 
 function showTimeUp() {
-    // Directly move to the next question without alerting the user
-    moveToNextQuestion();
+    // Move to the next question or end the quiz if there are no more questions
+    if (currentQuestionIndex < questions.length - 1) {
+        moveToNextQuestion();
+    } else {
+        showSummary();
+    }
 }
 
 
@@ -220,20 +225,77 @@ if (nextButton) {
 
 
 function showSummary() {
-    document.getElementById('question-screen').classList.add('hidden'); // Hide the question screen
-    const summaryScreen = document.getElementById('summary-screen');
-    summaryScreen.classList.remove('hidden'); // Show the summary screen
+    document.getElementById('start-screen').classList.add('hidden');
+    var modal = document.getElementById("summary-modal");
+    var span = document.getElementsByClassName("close-button")[0];
 
-    summaryScreen.innerHTML = '<h2>Quiz Summary</h2>'; // Reset the innerHTML
+    // Clear the previous summary content
+    var summaryResults = document.getElementById("summary-results");
+    summaryResults.innerHTML = "<h2>Congratulations! Your Quiz is Complete!</h2>"; // Add congratulations message
+
+    // Add detailed results to the summary
     results.forEach((result, index) => {
         const resultElement = document.createElement('p');
         resultElement.textContent = `Question ${index + 1}: ${result.question} - Your Answer: ${result.answer} (${result.isCorrect ? 'Correct' : 'Incorrect'})`;
-        summaryScreen.appendChild(resultElement);
+        summaryResults.appendChild(resultElement);
     });
 
+    // Display the final score
+    var summaryFinalScore = document.getElementById("summary-final-score");
+    summaryFinalScore.textContent = `Final Score: ${score}`;
 
-    document.getElementById('final-score').textContent = `Final Score: ${score}`;
+    // Add a restart button
+    var restartButton = document.createElement('button');
+    restartButton.textContent = 'Restart Quiz';
+    restartButton.onclick = restartQuiz; // Restart quiz when button is clicked
+    summaryResults.appendChild(restartButton);
+
+    // Display the modal
+    modal.style.display = "block";
+
+    // Close the modal when the 'x' is clicked
+    span.onclick = function() {
+        modal.style.display = "none";
+    };
+
+    // Close the modal when clicked outside of the modal content
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
 }
+
+function restartQuiz() {
+    // Reset quiz state
+    currentQuestionIndex = 0;
+    score = 0;
+    results = [];
+
+    // Hide the summary modal and show the start screen
+    var modal = document.getElementById("summary-modal");
+    modal.style.display = "none";
+    document.getElementById('start-screen').classList.remove('hidden');
+
+    // Reset UI elements on question screen
+    document.getElementById('question-screen').classList.add('hidden'); // Question screen should remain hidden
+    document.getElementById('score').textContent = 'Score: 0';
+    document.getElementById('progress').textContent = 'Question 1 of X'; // Update X to the total number of questions
+    document.getElementById('timer').textContent = 'Time Remaining: 30s';
+
+    // Clear previous question and answer buttons
+    document.getElementById('question').textContent = '';
+    const answerButtonsElement = document.getElementById('answer-buttons');
+    answerButtonsElement.innerHTML = '';
+
+    // Optionally, reset player's name and year input fields
+    document.getElementById('player-name').value = '';
+    document.getElementById('player-year').value = '';
+
+    // No need to load questions here if they are loaded when the "Start Quiz" button is clicked
+}
+
+
 
 
 
