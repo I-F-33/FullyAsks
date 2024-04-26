@@ -65,6 +65,6 @@ function createConnection() {
 
 
 // Test the database connection
-testConnection();
+//testConnection();
 // Export the Sequelize instance
 module.exports = {createConnection};

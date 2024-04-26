@@ -327,5 +327,31 @@ async function restartQuiz() {
         // Handle the error if necessary
     }
 }
-    
-    
+
+async function fetchTopRecords() {
+    try {
+        const response = await fetch('/game-records/top');
+        if (!response.ok) {
+            throw new Error('Failed to fetch top records');
+        }
+        const topRecords = await response.json();
+        updateLeaderboard(topRecords);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+ function updateLeaderboard(topRecords){
+    const leaderboardItems = document.querySelectorAll('.leaderboard-item');
+    topRecords.forEach((record, index) => {
+        if(index < leaderBoardItem){
+            const leaderboardItem = leaderboardItems[index];
+            leaderboardItem.querySelector('.player-name').textContent = record.name;
+            leaderboardItem.querySelector('.player-score').textContent = record.score;
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetchTopRecords();
+});
