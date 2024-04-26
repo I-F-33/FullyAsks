@@ -56,7 +56,7 @@
         <div class="navbar-nav ms-auto p-4 p-lg-0">
             <a href="index.html" class="nav-item nav-link active">Home</a>
             <a href="#about" class="nav-item nav-link">About us</a>
-            <a href="" class="nav-item nav-link">Login</a>
+            <a href="#login" class="nav-item nav-link">Login</a>
             <a href="#contact" class="nav-item nav-link">Contact us</a>
             <a href="#leaderboard" class="nav-item nav-link">Leaderboard</a>
 
@@ -79,7 +79,7 @@
                             <div class="col-lg-8">
                                 <p class="d-inline-block border border-white rounded text-primary fw-semi-bold py-1 px-3 animated slideInDown">Welcome to Tittan Challenge</p>
                                 <h1 class="display-1 mb-4 animated slideInDown">Cal State University of Fullerton</h1>
-                                <a href="" class="btn btn-primary py-3 px-5 animated slideInDown">Contact us</a>
+                                <a href="#contact" class="btn btn-primary py-3 px-5 animated slideInDown">Contact us</a>
                             </div>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                             <div class="col-lg-7">
                                 <p class="d-inline-block border border-white rounded text-primary fw-semi-bold py-1 px-3 animated slideInDown">Welcome to Titan Challenge</p>
                                 <h1 class="display-1 mb-4 animated slideInDown">Test your knowledge</h1>
-                                <a href="" class="btn btn-primary py-3 px-5 animated slideInDown">About us</a>
+                                <a href="#about" class="btn btn-primary py-3 px-5 animated slideInDown">About us</a>
                             </div>
                         </div>
                     </div>
@@ -125,9 +125,8 @@
                 <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
                     <p class="d-inline-block border rounded text-primary fw-semi-bold py-1 px-3">About Us</p>
                     <h1 class="display-5 mb-4">About Us</h1>
-                    <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Et nesciunt praesentium ipsa fugit quod provident vero?</p>
-                    <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Et nesciunt praesentium ipsa fugit quod provident vero?</p>
-                    <p class="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Et nesciunt praesentium ipsa fugit quod provident vero?</p>
+                    <p class="mb-4"> Welcome to the Titan Challenge project, Our team consists of people who really care about technology, education, and working together.</p>
+                    <p class="mb-4"> Together, we want to make a cool way for people to get familiar with CSUF, that shows how awesome Cal State Fullerton is with its history, campus, and great education.</p>
                 
                     <div class="border rounded p-4">
                         <nav>
@@ -139,16 +138,16 @@
                         </nav>
                         <div class="tab-content" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="nav-story" role="tabpanel" aria-labelledby="nav-story-tab">
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et nesciunt praesentium ipsa fugit quod provident vero?</p>
-                                <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Et nesciunt praesentium ipsa fugit quod provident vero?</p>
+                                <p>The story behind Titan Challenge stemmed from a desire to address the common challenge faced by new students at California State University, Fullerton (CSUF): how to quickly and effectively familiarize themselves with the school's history, facilities, and resources related to their major. </p>
+                                <p class="mb-0">?</p>
                             </div>
                             <div class="tab-pane fade" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Et nesciunt praesentium ipsa fugit quod provident vero?</p>
-                                <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Et nesciunt praesentium ipsa fugit quod provident vero?</p>
+                                <p> The mission of Titan Challenge is to provide an engaging and informative platform for new students at California State University, Fullerton (CSUF)</p>
+                                <p class="mb-0">Our mission is to empower students to feel confident and connected to their university community from the moment they arrive on campus.</p>
                             </div>
                             <div class="tab-pane fade" id="nav-vision" role="tabpanel" aria-labelledby="nav-vision-tab">
                                 <p>Create a quiz game to test students' knowledge about Cal State Fullerton, promoting interactive learning and engagement. </p>
-                                <p class="mb-0">Lorem ipsum dolor sit amet consectetur adipisicing elit. Et nesciunt praesentium ipsa fugit quod provident vero?</p>
+                                <p class="mb-0">The vision for Titan Challenge is to create an interactive quiz game that empowers new students at California State University, Fullerton (CSUF) to become well-informed about their school, its history, and facilities related to their major.</p>
                             </div>
                         </div>
                     </div>
@@ -197,23 +196,6 @@
 </div>
 <!-- Quiz End -->
 
-    <div id="quiz-container">
-        <div id="start-screen">
-            <h2>Enter Your Name and Class Year to Start the Quiz</h2>
-            <input type="text" id="player-name" placeholder="Your name">
-            <input type="number" id="player-year" name="class-year" placeholder="Your Class Year"  min="1" max="4" step="1">
-            <button id="start-btn" class="btn">Start Quiz</button>
-        </div>
-
-        <div id="question-screen" class="hidden">
-            <div id="progress">Question X of Y</div>
-            <div id="score">Score: 0</div>
-            <div id="timer">Time Remaining: 30s</div>
-            <div id="question">Question will go here</div>
-            <div id="answer-buttons" class="btn-grid"></div>
-            <button id="next-btn" class="hidden">Next Question</button>
-        </div>
-    </div>
 
     <!-- Pop-Up Summary Start -->
 <div id="summary-modal" class="modal">
@@ -335,10 +317,10 @@
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-4">Quick Links</h4>
-                    <a class="btn btn-link" href="">About Us</a>
-                    <a class="btn btn-link" href="">Login</a>
-                    <a class="btn btn-link" href="">Contact Us</a>
-                    <a class="btn btn-link" href="">Leaderboard</a>
+                    <a class=" btn-link" href="#about">About Us</a>
+                    <a class=" btn-link" href="#login">Login</a>
+                    <a class=" btn-link" href="#contact">Contact Us</a>
+                    <a class=" btn-link" href="#leaderboard">Leaderboard</a>
                 </div>
             </div>
         </div>
