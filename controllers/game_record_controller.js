@@ -44,20 +44,25 @@ async function fetchTop3GameRecords() {
         await connection.authenticate();
         console.log('Connection has been established successfully.');
 
-        gameRecord_model = await GameRecordModel.createGameRecordModel(connection, UserModel.createUserModel(connection));
+        user_model = await UserModel.createUserModel(connection);
+        gameRecord_model = await GameRecordModel.createGameRecordModel(connection, user_model);
         
         // Fetch the top 5 game records sorted by score in descending order
         const top3GameRecords = await gameRecord_model.findAll({
             order: [['score', 'DESC']], // Order by score in descending order
-            limit: 3, // Limit to 5 records
+            limit: 3, // Limit to 3 records
+            include: [{ model: user_model, attributes: ['username']}]
         });
-
+        
+        //log the top 3 game records
+        console.log('Top 3 game records:', top3GameRecords);
+        
         // Return the fetched game records
         return top3GameRecords;
 
     } catch (error) {
         console.error('Error fetching game record:', error);
-        throw error; // Optionally, re-throw the error if you want to handle it further up the chain
+        throw error; 
     } finally {
         // Always close the database connection, whether an error occurred or not
         connection.close();

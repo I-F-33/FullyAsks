@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     console.log('Content loaded!'); // Log that the content has loaded
 
+    console.log('Fetching top records...'); 
+    fetchTopRecords();
+
     startButton.addEventListener('click', async () => {
         console.log('Start button clicked!'); // Log that the start button was clicked
         const playerName = playerNameInput.value.trim();
@@ -330,11 +333,13 @@ async function restartQuiz() {
 
 async function fetchTopRecords() {
     try {
+        console.log('fetching top records');
         const response = await fetch('/game-records/top');
         if (!response.ok) {
             throw new Error('Failed to fetch top records');
         }
         const topRecords = await response.json();
+        console.log('Top records:', topRecords);
         updateLeaderboard(topRecords);
     } catch (error) {
         console.error(error);
@@ -344,14 +349,13 @@ async function fetchTopRecords() {
  function updateLeaderboard(topRecords){
     const leaderboardItems = document.querySelectorAll('.leaderboard-item');
     topRecords.forEach((record, index) => {
-        if(index < leaderBoardItem){
+        if(index < leaderboardItems.length){
             const leaderboardItem = leaderboardItems[index];
-            leaderboardItem.querySelector('.player-name').textContent = record.name;
+            leaderboardItem.querySelector('.player-name').textContent = record.User.username;
             leaderboardItem.querySelector('.player-score').textContent = record.score;
         }
     });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    fetchTopRecords();
 });
