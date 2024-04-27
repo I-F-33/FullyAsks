@@ -21,7 +21,7 @@ async function fetchRandomQuestions(limit = 10) {
             });
 
                 // Log the selected questions
-            console.log('Random questions:', questions);
+            //console.log('Random questions:', questions);
 
             return questions;
     
