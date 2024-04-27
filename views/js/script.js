@@ -6,6 +6,7 @@ let user = {}; // Will store the user object
 let timer;
 let timeLeft = 30; // seconds for each question
 let results = []; // Will store the results of each question
+let top_score_usernames = []; // Will store the top 3 usernames
 
 
 // Waits for the HTML to fully load before attempting to load the first question.
@@ -253,6 +254,8 @@ async function showSummary() {
         console.error('Error saving game record:', error);
     }
 
+    fetchTopRecords();// Fetch the top records after saving the game record
+
     document.getElementById('start-screen').classList.add('hidden');
     var modal = document.getElementById("summary-modal");
     var span = document.getElementsByClassName("close-button")[0];
@@ -347,9 +350,11 @@ async function fetchTopRecords() {
 }
 
  function updateLeaderboard(topRecords){
+    top_score_usernames = [];
     const leaderboardItems = document.querySelectorAll('.leaderboard-item');
     topRecords.forEach((record, index) => {
         if(index < leaderboardItems.length){
+            top_score_usernames.push(record.User.username);
             const leaderboardItem = leaderboardItems[index];
             leaderboardItem.querySelector('.player-name').textContent = record.User.username;
             leaderboardItem.querySelector('.player-score').textContent = record.score;
