@@ -114,10 +114,10 @@ button:hover {
   
 body {
     font-family: 'Open Sans', sans-serif;
-    background-color: #f4f4f4;
+    background-color: #FFFFFF;
     color: var(--dark);
     line-height: 1.6;
-    padding: 20px;
+    padding: 0px;
 }
 
 
