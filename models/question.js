@@ -1,7 +1,6 @@
 // models/Question.js
 
 const { DataTypes } = require('sequelize');
-const database = require('../db/appdb.js');
 
 function createQuestionModel(connection){
 // Define the Question model
